@@ -8,6 +8,7 @@
 		<version>2.2.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>jar</packaging>
 
 	<groupId>com.cursodsousa</groupId>
 	<artifactId>casamento-api</artifactId>
