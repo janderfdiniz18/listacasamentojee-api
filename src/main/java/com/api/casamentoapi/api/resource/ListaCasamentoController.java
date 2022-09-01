@@ -23,9 +23,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Api("Lista Casamento API")
 @Slf4j
+@CrossOrigin("*")
 public class ListaCasamentoController {
 
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private ConvidadoService service;
