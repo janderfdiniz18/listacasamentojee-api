@@ -1,7 +1,7 @@
 package com.api.casamentoapi.api.resource;
 
-import com.api.casamentoapi.api.dto.ConvidadosDto;
-import com.api.casamentoapi.model.entity.Convidados;
+import com.api.casamentoapi.api.dto.ConvidadoDto;
+import com.api.casamentoapi.model.entity.Convidado;
 import com.api.casamentoapi.service.ConvidadoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,31 +34,55 @@ public class ListaCasamentoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Create a List")
-    public List<ConvidadosDto> create(@RequestBody @Valid List<ConvidadosDto> dtos ){
+    public List<ConvidadoDto> create(@RequestBody @Valid List<ConvidadoDto> dtos ){
 //        log.info(" creating a list: {} ", dto.getCodigo());
-        List<ConvidadosDto> convidadosDtoList = new ArrayList<>();
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
         dtos.forEach(convidadosDto -> {
-            Convidados entity = modelMapper.map( convidadosDto, Convidados.class );
+            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+            entity.setStatus(false);
             entity = service.save(entity);
-            convidadosDtoList.add(modelMapper.map(entity, ConvidadosDto.class)) ;
+            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
         });
         return convidadosDtoList;
     }
 
-    @GetMapping("{codigo}")
+    @PostMapping("/swagger")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Create a List")
+    public List<ConvidadoDto> createSwagger(@RequestBody @Valid List<ConvidadoDto> dtos ){
+//        log.info(" creating a list: {} ", dto.getCodigo());
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        String condigo = service.stringRandom();
+        dtos.forEach(convidadosDto -> {
+            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+            entity.setCodigo(condigo);
+            entity = service.saveSwagger(entity);
+            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
+        });
+        return convidadosDtoList;
+    }
+
+    @GetMapping("/convidados/{codigo}")
     @ApiOperation("Get convidados")
-    public List<ConvidadosDto> get( @PathVariable(value="codigo") String codigo){
-        List<Convidados> convidados = service.getByCodigo(codigo);
-        List<ConvidadosDto> convidadosDtoList = convidados.stream().map(entity -> {
-            ConvidadosDto convidadoDto = modelMapper.map(entity, ConvidadosDto.class);
+    public List<ConvidadoDto> getConvidados( @PathVariable(value="codigo") String codigo){
+        List<Convidado> convidados = service.getByCodigo(codigo);
+        List<ConvidadoDto> convidadosDtoList = convidados.stream().map(entity -> {
+            ConvidadoDto convidadoDto = modelMapper.map(entity, ConvidadoDto.class);
             return convidadoDto;
                 }
                 ).collect(Collectors.toList());
         return convidadosDtoList;
     }
 
-    @GetMapping
-    public List<Convidados> getAllConvidados(){
-        return service.findAll();
+    @GetMapping("/noivos/{codigo}")
+    @ApiOperation("Get convidados")
+    public List<Convidado> getConvidadosNoivos( @PathVariable(value="codigo") String codigo){
+        return service.findAllConvidados(codigo);
+
     }
+
+    //@GetMapping
+    //public List<Convidados> getAllConvidados(){
+     //   return service.findAll();
+   // }
 }

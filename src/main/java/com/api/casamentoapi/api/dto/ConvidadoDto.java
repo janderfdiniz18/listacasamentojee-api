@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConvidadosDto {
+public class ConvidadoDto {
 
     private Long id;
 
@@ -22,6 +22,8 @@ public class ConvidadosDto {
     private String nomeConvidado;
 
     private Boolean status;
+
+    private Boolean statusConfirmacao;
 
     private String codigo;
 

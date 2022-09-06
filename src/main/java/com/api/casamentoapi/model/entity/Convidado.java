@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table
-public class Convidados {
+public class Convidado {
 
     @Id
     @Column
@@ -35,6 +35,9 @@ public class Convidados {
 
     @Column
     private Boolean status;
+
+    @Column
+    private Boolean statusConfirmacao;
 
     @Column
     private LocalDate dataConfirmacao;
