@@ -46,6 +46,29 @@ public class ListaCasamentoController {
         return convidadosDtoList;
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Update")
+    public List<ConvidadoDto> updateConfirm(@RequestBody @Valid List<ConvidadoDto> dtos ){
+//        log.info(" creating a list: {} ", dto.getCodigo());
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        dtos.forEach(convidadoDto -> {
+                Convidado convidado = modelMapper.map(convidadoDto, Convidado.class);
+                convidado.setStatus(false);
+                convidado = service.update(convidado);
+                convidadosDtoList.add(modelMapper.map(convidado, ConvidadoDto.class));
+        });
+
+
+//        dtos.forEach(convidadosDto -> {
+//            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+//            entity.setStatus(false);
+//            entity = service.save(entity);
+//            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
+//        });
+        return convidadosDtoList;
+    }
+
     @PostMapping("/swagger")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Create a List")

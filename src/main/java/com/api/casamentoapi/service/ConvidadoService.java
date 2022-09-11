@@ -1,15 +1,13 @@
 package com.api.casamentoapi.service;
 
 
-import com.api.casamentoapi.api.dto.ConvidadoDto;
 import com.api.casamentoapi.model.entity.Convidado;
 import com.api.casamentoapi.model.repository.ConvidadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -50,5 +48,16 @@ public class ConvidadoService {
             return repository.findAll();
         }
         return null;
+    }
+
+    public Optional<Convidado> getById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Convidado update(Convidado convidado) {
+        if (convidado == null || convidado.getId() == null){
+            throw new IllegalArgumentException("Convidado id cant be null.");
+        }
+        return repository.save(convidado);
     }
 }
