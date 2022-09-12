@@ -60,4 +60,14 @@ public class ConvidadoService {
         }
         return repository.save(convidado);
     }
+
+    public void delete(Convidado convidado) {
+        if(convidado == null)
+            throw new IllegalArgumentException("Convidado nao existe");
+        this.repository.delete(convidado);
+    }
+
+    public void deleteAll(){
+        this.repository.deleteAll();
+    }
 }

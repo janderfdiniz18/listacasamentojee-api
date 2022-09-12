@@ -104,6 +104,20 @@ public class ListaCasamentoController {
 
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Deletes a book by id")
+    public void delete(@PathVariable Long id){
+        log.info(" deleting book of id: {} ", id);
+        Convidado convidado = service.getById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND) );
+        service.delete(convidado);
+    }
+    @DeleteMapping("/todos")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Deletes a book by id")
+    public void delete(){
+        service.deleteAll();
+    }
     //@GetMapping
     //public List<Convidados> getAllConvidados(){
      //   return service.findAll();
