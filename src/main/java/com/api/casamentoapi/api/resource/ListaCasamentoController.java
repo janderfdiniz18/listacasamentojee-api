@@ -39,17 +39,16 @@ public class ListaCasamentoController {
         List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
         dtos.forEach(convidadosDto -> {
             Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
-            entity.setStatus(false);
             entity = service.save(entity);
             convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
         });
         return convidadosDtoList;
     }
 
-    @PutMapping
+    @PutMapping("/convidados")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Update")
-    public List<ConvidadoDto> updateConfirm(@RequestBody @Valid List<ConvidadoDto> dtos ){
+    public List<ConvidadoDto> updateConvidadosConfirm(@RequestBody @Valid List<ConvidadoDto> dtos ){
 //        log.info(" creating a list: {} ", dto.getCodigo());
         List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
         dtos.forEach(convidadoDto -> {
@@ -66,6 +65,21 @@ public class ListaCasamentoController {
 //            entity = service.save(entity);
 //            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
 //        });
+        return convidadosDtoList;
+    }
+
+    @PutMapping("/noivos")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Update")
+    public List<ConvidadoDto> updateConfirm(@RequestBody @Valid List<ConvidadoDto> dtos ){
+//        log.info(" creating a list: {} ", dto.getCodigo());
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        dtos.forEach(convidadoDto -> {
+            Convidado convidado = modelMapper.map(convidadoDto, Convidado.class);
+            convidado = service.update(convidado);
+            convidadosDtoList.add(modelMapper.map(convidado, ConvidadoDto.class));
+        });
+
         return convidadosDtoList;
     }
 
@@ -111,12 +125,6 @@ public class ListaCasamentoController {
         log.info(" deleting book of id: {} ", id);
         Convidado convidado = service.getById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND) );
         service.delete(convidado);
-    }
-    @DeleteMapping("/todos")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @ApiOperation("Deletes a book by id")
-    public void delete(){
-        service.deleteAll();
     }
     //@GetMapping
     //public List<Convidados> getAllConvidados(){
