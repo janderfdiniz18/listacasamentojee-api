@@ -6,6 +6,10 @@ import com.api.casamentoapi.model.repository.ConvidadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -17,14 +21,21 @@ public class ConvidadoService {
     ConvidadoRepository repository;
 
     public Convidado save(Convidado convidado) {
+        String condigo = stringRandom();
+        convidado.setCodigo(condigo);
         return repository.save(convidado);
     }
 
     public Convidado saveSwagger(Convidado convidado) {
-
-        convidado.setStatus(false);
-        convidado.setStatusConfirmacao(true);
+        String condigo = stringRandom();
+        convidado.setCodigo(condigo);
         return repository.save(convidado);
+    }
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     public String stringRandom(){
@@ -69,5 +80,12 @@ public class ConvidadoService {
 
     public void deleteAll(){
         this.repository.deleteAll();
+    }
+
+    public List<Convidado> findAllConvidadosStatusConfirmacao(String codigo, Boolean status) {
+        if(codigo.equals("JeENoivosTe4m0")) {
+            return status ? repository.findByStatusConfirmacaoIsTrue() : repository.findByStatusConfirmacaoIsFalse();
+        }
+        return null;
     }
 }

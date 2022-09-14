@@ -45,6 +45,20 @@ public class ListaCasamentoController {
         return convidadosDtoList;
     }
 
+    @PostMapping("/swagger")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Create a List")
+    public List<ConvidadoDto> createSwagger(@RequestBody @Valid List<ConvidadoDto> dtos ){
+//        log.info(" creating a list: {} ", dto.getCodigo());
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        dtos.forEach(convidadosDto -> {
+            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+            entity = service.saveSwagger(entity);
+            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
+        });
+        return convidadosDtoList;
+    }
+
     @PutMapping("/convidados")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Update")
@@ -58,13 +72,6 @@ public class ListaCasamentoController {
                 convidadosDtoList.add(modelMapper.map(convidado, ConvidadoDto.class));
         });
 
-
-//        dtos.forEach(convidadosDto -> {
-//            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
-//            entity.setStatus(false);
-//            entity = service.save(entity);
-//            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
-//        });
         return convidadosDtoList;
     }
 
@@ -80,22 +87,6 @@ public class ListaCasamentoController {
             convidadosDtoList.add(modelMapper.map(convidado, ConvidadoDto.class));
         });
 
-        return convidadosDtoList;
-    }
-
-    @PostMapping("/swagger")
-    @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation("Create a List")
-    public List<ConvidadoDto> createSwagger(@RequestBody @Valid List<ConvidadoDto> dtos ){
-//        log.info(" creating a list: {} ", dto.getCodigo());
-        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
-        String condigo = service.stringRandom();
-        dtos.forEach(convidadosDto -> {
-            Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
-            entity.setCodigo(condigo);
-            entity = service.saveSwagger(entity);
-            convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
-        });
         return convidadosDtoList;
     }
 
@@ -116,6 +107,18 @@ public class ListaCasamentoController {
     public List<Convidado> getConvidadosNoivos( @PathVariable(value="codigo") String codigo){
         return service.findAllConvidados(codigo);
 
+    }
+
+    @GetMapping("/noivos/{codigo}/notconfirm")
+    @ApiOperation("Get convidados")
+    public List<Convidado> getConvidadosNConfirmou( @PathVariable(value="codigo") String codigo){
+        return service.findAllConvidadosStatusConfirmacao(codigo, false);
+    }
+
+    @GetMapping("/noivos/{codigo}/confirm")
+    @ApiOperation("Get convidados")
+    public List<Convidado> getConvidadosConfirmou( @PathVariable(value="codigo") String codigo){
+        return service.findAllConvidadosStatusConfirmacao(codigo, true);
     }
 
     @DeleteMapping("{id}")
