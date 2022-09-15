@@ -37,8 +37,10 @@ public class ListaCasamentoController {
     public List<ConvidadoDto> create(@RequestBody @Valid List<ConvidadoDto> dtos ){
 //        log.info(" creating a list: {} ", dto.getCodigo());
         List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        String condigo = service.stringRandom();
         dtos.forEach(convidadosDto -> {
             Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+            entity.setCodigo(condigo);
             entity = service.save(entity);
             convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
         });
@@ -49,10 +51,11 @@ public class ListaCasamentoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Create a List")
     public List<ConvidadoDto> createSwagger(@RequestBody @Valid List<ConvidadoDto> dtos ){
-//        log.info(" creating a list: {} ", dto.getCodigo());
         List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        String condigo = service.stringRandom();
         dtos.forEach(convidadosDto -> {
             Convidado entity = modelMapper.map( convidadosDto, Convidado.class );
+            entity.setCodigo(condigo);
             entity = service.saveSwagger(entity);
             convidadosDtoList.add(modelMapper.map(entity, ConvidadoDto.class)) ;
         });
