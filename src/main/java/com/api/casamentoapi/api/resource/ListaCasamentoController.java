@@ -112,16 +112,11 @@ public class ListaCasamentoController {
 
     }
 
-    @GetMapping("/noivos/{codigo}/notconfirm")
+    @GetMapping("/noivos/{codigo}/{presenca}")
     @ApiOperation("Get convidados")
-    public List<Convidado> getConvidadosNConfirmou( @PathVariable(value="codigo") String codigo){
-        return service.findAllConvidadosStatusConfirmacao(codigo, false);
-    }
+    public List<Convidado> getConvidadosConfirmou( @PathVariable(value="codigo") String codigo, @PathVariable(value="presenca") Boolean presenca){
 
-    @GetMapping("/noivos/{codigo}/confirm")
-    @ApiOperation("Get convidados")
-    public List<Convidado> getConvidadosConfirmou( @PathVariable(value="codigo") String codigo){
-        return service.findAllConvidadosStatusConfirmacao(codigo, true);
+        return service.findAllConvidadosStatusConfirmacao(codigo, presenca);
     }
 
     @DeleteMapping("{id}")

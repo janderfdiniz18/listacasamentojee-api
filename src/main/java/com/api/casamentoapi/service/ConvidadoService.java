@@ -20,7 +20,7 @@ public class ConvidadoService {
         return repository.save(convidado);
     }
 
-    public Convidado saveSwagger(Convidado convidado) {
+    public Convidado  saveSwagger(Convidado convidado) {
 
         convidado.setStatus(false);
         convidado.setStatusConfirmacao(true);
