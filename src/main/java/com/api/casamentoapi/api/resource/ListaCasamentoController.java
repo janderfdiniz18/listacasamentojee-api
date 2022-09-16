@@ -78,6 +78,23 @@ public class ListaCasamentoController {
         return convidadosDtoList;
     }
 
+    @PutMapping("/convidados/cancelar")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Update")
+    public List<ConvidadoDto> updateConvidadosCancelar(@RequestBody @Valid List<ConvidadoDto> dtos ){
+//        log.info(" creating a list: {} ", dto.getCodigo());
+        List<ConvidadoDto> convidadosDtoList = new ArrayList<>();
+        dtos.forEach(convidadoDto -> {
+            Convidado convidado = modelMapper.map(convidadoDto, Convidado.class);
+            convidado.setStatus(false);
+            convidado.setStatusConfirmacao(false);
+            convidado = service.update(convidado);
+            convidadosDtoList.add(modelMapper.map(convidado, ConvidadoDto.class));
+        });
+
+        return convidadosDtoList;
+    }
+
     @PutMapping("/noivos")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Update")
