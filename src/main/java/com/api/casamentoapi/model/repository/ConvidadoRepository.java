@@ -11,7 +11,9 @@ public interface ConvidadoRepository extends JpaRepository<Convidado, Long> {
 
     List<Convidado> findByCodigo(String codigo);
 
-    List<Convidado> findByStatusConfirmacaoIsFalse();
+    List<Convidado> findByStatusConfirmacaoIsFalseAndStatusIsTrue();
 
     List<Convidado> findByStatusConfirmacaoIsTrue();
+
+    List<Convidado> findByStatusConfirmacaoIsFalseAndStatusIsFalse();
 }

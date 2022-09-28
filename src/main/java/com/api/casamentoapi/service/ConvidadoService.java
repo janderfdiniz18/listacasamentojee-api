@@ -71,9 +71,17 @@ public class ConvidadoService {
         this.repository.deleteAll();
     }
 
-    public List<Convidado> findAllConvidadosStatusConfirmacao(String codigo, Boolean status) {
-        if(codigo.equals("JeENoivosTe4m0")) {
-            return status ? repository.findByStatusConfirmacaoIsTrue() : repository.findByStatusConfirmacaoIsFalse();
+    public List<Convidado> findAllConvidadosStatusConfirmacao(String codigo, Boolean status, Boolean statusConfirmacao) {
+        if(codigo.equals("JeENoivosTe4m0") && status) {
+            return statusConfirmacao ? repository.findByStatusConfirmacaoIsTrue() : repository.findByStatusConfirmacaoIsFalseAndStatusIsTrue();
+        }else{
+            return statusConfirmacao ? repository.findByStatusConfirmacaoIsTrue() : repository.findByStatusConfirmacaoIsFalseAndStatusIsFalse();
+        }
+    }
+
+    public List<Convidado> findAllListaPresenca(String codigo) {
+        if(codigo.equals("JeEList@Presenca2910")) {
+            return repository.findByStatusConfirmacaoIsTrue();
         }
         return null;
     }
